@@ -3,6 +3,51 @@
         section
             .container
                 h1.ui-title-1 Home
+                input(
+                    type="text"
+                    placeholder="What are you going to watch next ?"
+                    v-model="taskTitle"
+                    @keyup.enter="newTask"
+                )
+                textarea(
+                    type="text"
+                    placeholder="Description(optionally)"
+                    v-model="taskDescription"
+                )
+                .option-list
+                    input.what-watch--radio(
+                        type="radio"
+                        id="radioFilm"
+                        value="Film"
+                        v-model="whatWatch"
+                    )
+                    label(
+                        for="radioFilm"
+                    ) Film
+                    input.what-watch--radio(
+                        type="radio"
+                        id="radioSerial"
+                        value="Serial"
+                        v-model="whatWatch"
+                    )
+                    label(
+                        for="radioSerial"
+                    ) Serial
+                .total-time
+                    .total-time__film(
+                        v-if="whatWatch==='Film'"
+                    )
+                        span Total Films time
+                    .total-time__serial(
+                        v-if="whatWatch==='Serial'"
+                    )
+                        span Total Serial time 
+                .tag-list
+                    .ui-tag__wrapper
+                        .ui-tag
+                            span.tag-title {{whatWatch}}
+                            span.button-close
+   
         section
             .container
                 .task-list
@@ -37,6 +82,10 @@
 export default {
     data() {
         return {
+            taskTitle: '',
+            taskDescription: '',
+            taskId: 3,
+            whatWatch: 'Film',
             tasks:[
                 {
                     id: 1,
@@ -55,6 +104,23 @@ export default {
                     editing: false
                 }
             ]
+        }
+    },
+    
+    methods:{
+        newTask(){
+            if(this.taskTitle === '')
+                return
+            this.tasks.push({
+                id: this.taskId++,
+                title: this.taskTitle,
+                description: this.taskDescription,
+                whatWatch: this.whatWatch,
+                completed: false,
+                editing: false
+            })
+            this.taskTitle = ''
+            this.taskDescription = ''
         }
     }
 }
@@ -83,5 +149,15 @@ export default {
         margin-right 8px     
     .ui-title-3
         margin-bottom 0
-       
+
+
+
+.option-list
+    display flex
+    .what-watch--radio
+        margin-right 12px
+    label
+        margin-right 20px       
+        &:last-child
+            margin-bottom 0
 </style>
