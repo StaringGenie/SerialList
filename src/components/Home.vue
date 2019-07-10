@@ -17,6 +17,17 @@
                                     span.ui-label.ui-label--light {{task.whatWatch}}
                                     span Total Time:
                                 span.button-close
+                            .task-item__content
+                                .task-item__header
+                                    .ui-checkbox-wrapper
+                                        input.ui-checkbox(
+                                            type='checkbox'
+                                            v-model="task.completed"
+                                        )
+                                    span.ui-title-3 {{ task.title }}
+                                .task-item__body 
+                                    p.ui-text-regular {{task.description}}   
+
                                  
                                            
 </template>
@@ -30,7 +41,7 @@ export default {
                 {
                     id: 1,
                     title: 'Game of Thrones',
-                    description: 'winther is comming...',
+                    description: 'winther is coming...',
                     whatWatch: 'Serial',
                     completed: true,
                     editing: false
@@ -64,4 +75,13 @@ export default {
         margin-bottom 0
 .ui-label
     margin-right 8px
+.task-item__header
+    display flex
+    align-items center
+    margin-bottom 18px
+    .ui-checkbox-wrapper
+        margin-right 8px     
+    .ui-title-3
+        margin-bottom 0
+       
 </style>
