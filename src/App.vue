@@ -26,8 +26,7 @@
                     router-link.navbar-link(
                       :to="`${link.url}`"
                     ) {{link.title}}
-    .content-wrapper
-      router-view               
+    router-view               
 </template>
 
 <script>
@@ -35,7 +34,7 @@ export default {
   data() {
     return {
       linkMenu: [
-        {title: 'Home', url: '/home'},
+        {title: 'Home', url: '/'},
         {title: 'Login', url: '/login'},
         {title: 'Registration', url: '/registration'}
       ],
