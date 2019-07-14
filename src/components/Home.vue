@@ -73,9 +73,13 @@
                         v-for="tag in tags"
                         :key="tag.title"
                     )
-                        .ui-tag
+                        .ui-tag(
+                            @click="addTagUsed(tag)"
+                            :class="{active:tag.use}"
+                        )
                             span.tag-title {{tag.title}}
                             span.button-close
+                p {{usedTags}}            
    
           
 
@@ -97,6 +101,7 @@ export default {
             taskDescription: '',
             taskId: 3,
             whatWatch: 'Film',
+            usedTags: [],
             tags: [
                 {
                     title: 'Comedy',
@@ -163,6 +168,15 @@ export default {
             let hours = Math.trunc(minutes / 60)
             let min = minutes % 60
             return hours + ' Hours '+ min + ' Minutes '
+        },
+
+        addTagUsed (tag){
+            tag.use = !tag.use
+            if(tag.use){
+                this.usedTags.push(tag.title)
+            } else {
+                this.usedTags.splice(this.usedTags.indexOf(tag.title), 1)
+            }
         }
     },
 
