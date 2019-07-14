@@ -48,6 +48,7 @@
                             type="number"
                             v-model="filmMinutes"
                         )
+                        p {{filmTime}}
                     .total-time__serial(
                         v-if="whatWatch==='Serial'"
                     )
@@ -66,6 +67,7 @@
                             type="number"
                             v-model="serialSeriesMinutes"
                         )
+                        p {{SerialTime}}
                 .tag-list
                     .ui-tag__wrapper
                         .ui-tag
@@ -98,13 +100,21 @@ export default {
     
     methods:{
         newTask(){
-            if(this.taskTitle === '')
+            if(this.taskTitle === ''){
                 return
+            }    
+            let time 
+            if(this.whatWatch === 'Film'){
+                time = this.filmTime
+            } else{
+                time = this.SerialTime
+            }
             this.tasks.push({
                 id: this.taskId++,
                 title: this.taskTitle,
                 description: this.taskDescription,
                 whatWatch: this.whatWatch,
+                time,
                 completed: false,
                 editing: false
             })
@@ -113,11 +123,23 @@ export default {
         },
 
         getHoursAndMinutes (minutes){
-            let hours = Math.trunc(minutes/60)
+            let hours = Math.trunc(minutes / 60)
             let min = minutes % 60
             return hours + ' Hours '+ min + ' Minutes '
         }
+    },
+
+    computed: {
+        filmTime (){
+            let min = (this.filmHours * 60) + (this.filmMinutes * 1)
+            return this.getHoursAndMinutes(min)
+        },
+        SerialTime (){
+            let min = this.serialSeason*this.serialSeries*this.serialSeriesMinutes
+            return this.getHoursAndMinutes(min)
+        }
     }
+        
 }
 </script>
 
