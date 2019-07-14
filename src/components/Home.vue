@@ -69,9 +69,12 @@
                         )
                         p {{SerialTime}}
                 .tag-list
-                    .ui-tag__wrapper
+                    .ui-tag__wrapper(
+                        v-for="tag in tags"
+                        :key="tag.title"
+                    )
                         .ui-tag
-                            span.tag-title {{whatWatch}}
+                            span.tag-title {{tag.title}}
                             span.button-close
    
           
@@ -93,7 +96,41 @@ export default {
             taskTitle: '',
             taskDescription: '',
             taskId: 3,
-            whatWatch: 'Film'
+            whatWatch: 'Film',
+            tags: [
+                {
+                    title: 'Comedy',
+                    use: false
+                },
+                {
+                    title: 'Adventure',
+                    use: false
+                },
+                {
+                    title: 'Detective',
+                    use: false
+                },
+                {
+                    title: 'Drama',
+                    use: false
+                },
+                {
+                    title: 'History',
+                    use: false
+                },
+                {
+                    title: 'Melodrama',
+                    use: false
+                },
+                {
+                    title: 'Tragedy',
+                    use: false
+                },
+                {
+                    title: 'Fantasy',
+                    use: false
+                },
+            ]
            
         }
     },
