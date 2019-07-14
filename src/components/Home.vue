@@ -37,41 +37,44 @@
                     .total-time__film(
                         v-if="whatWatch==='Film'"
                     )
-                        span Total Films time
+
+                        span.time-title Hours
+                        input.time-input(
+                            type="number"
+                            v-model="filmHours"
+                        )
+                        span.time-title Minutes
+                        input.time-input(
+                            type="number"
+                            v-model="filmMinutes"
+                        )
+                        p {{filmTime}}
                     .total-time__serial(
                         v-if="whatWatch==='Serial'"
                     )
-                        span Total Serial time 
+                        span.time-title How many seasons?
+                        input.time-input(
+                            type="number"
+                            v-model="serialSeason"
+                        )
+                        span.time-title How many series?
+                        input.time-input(
+                            type="number"
+                            v-model="serialSeries"
+                        )
+                        span.time-title How long is one series? (minutes)
+                        input.time-input(
+                            type="number"
+                            v-model="serialSeriesMinutes"
+                        )
+                        p {{SerialTime}}
                 .tag-list
                     .ui-tag__wrapper
                         .ui-tag
                             span.tag-title {{whatWatch}}
                             span.button-close
    
-        section
-            .container
-                .task-list
-                    .task-item(
-                        v-for="task in tasks"
-                        :key="task.id"
-                        :class="{completed: task.completed}"
-                    )
-                        .ui-card.ui-card--shadow  
-                            .task-item__info
-                                .task-item__main-info
-                                    span.ui-label.ui-label--light {{task.whatWatch}}
-                                    span Total Time:
-                                span.button-close
-                            .task-item__content
-                                .task-item__header
-                                    .ui-checkbox-wrapper
-                                        input.ui-checkbox(
-                                            type='checkbox'
-                                            v-model="task.completed"
-                                        )
-                                    span.ui-title-3 {{ task.title }}
-                                .task-item__body 
-                                    p.ui-text-regular {{task.description}}   
+          
 
                                  
                                            
@@ -82,75 +85,76 @@
 export default {
     data() {
         return {
+            serialSeason: 0,
+            serialSeries: 0,
+            serialSeriesMinutes:0,
+            filmHours: 0,
+            filmMinutes: 0,
             taskTitle: '',
             taskDescription: '',
             taskId: 3,
-            whatWatch: 'Film',
-            tasks:[
-                {
-                    id: 1,
-                    title: 'Game of Thrones',
-                    description: 'winther is coming...',
-                    whatWatch: 'Serial',
-                    completed: true,
-                    editing: false
-                },
-                 {
-                    id: 2,
-                    title: 'Forest Gump',
-                    description: 'Run, Forest',
-                    whatWatch: 'Film',
-                    completed: false,
-                    editing: false
-                }
-            ]
+            whatWatch: 'Film'
+           
         }
     },
     
     methods:{
         newTask(){
-            if(this.taskTitle === '')
+            if(this.taskTitle === ''){
                 return
+            }    
+            let time 
+            if(this.whatWatch === 'Film'){
+                time = this.filmTime
+            } else{
+                time = this.SerialTime
+            }
             this.tasks.push({
                 id: this.taskId++,
                 title: this.taskTitle,
                 description: this.taskDescription,
                 whatWatch: this.whatWatch,
+                time,
                 completed: false,
                 editing: false
             })
             this.taskTitle = ''
             this.taskDescription = ''
+        },
+
+        getHoursAndMinutes (minutes){
+            let hours = Math.trunc(minutes / 60)
+            let min = minutes % 60
+            return hours + ' Hours '+ min + ' Minutes '
+        }
+    },
+
+    computed: {
+        filmTime (){
+            let min = (this.filmHours * 60) + (this.filmMinutes * 1)
+            return this.getHoursAndMinutes(min)
+        },
+        SerialTime (){
+            let min = this.serialSeason*this.serialSeries*this.serialSeriesMinutes
+            return this.getHoursAndMinutes(min)
         }
     }
+        
 }
 </script>
 
 <style lang="stylus" scoped>
+.total-time
+    margin-bottom 20px
+.time-title
+    display block
+    margin-bottom 8px
+.time-input
+    max-width 70px
+    margin-right 15px        
 .button-close
     width 20px
     height @width
-.task-item__info
-    margin-bottom 20px
-    justify-content space-between
-    display flex
-    align-items center
-.task-item
-    margin-bottom 20px
-    &:last-child
-        margin-bottom 0
-.ui-label
-    margin-right 8px
-.task-item__header
-    display flex
-    align-items center
-    margin-bottom 18px
-    .ui-checkbox-wrapper
-        margin-right 8px     
-    .ui-title-3
-        margin-bottom 0
-
-
 
 .option-list
     display flex

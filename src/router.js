@@ -3,10 +3,11 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Login from '@/components/Auth/Login'
 import Registration from '@/components/Auth/Registration'
-
+import Task from '@/components/Task'
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
     routes: [{
             path: '/',
             name: 'home',
@@ -23,5 +24,10 @@ export default new Router({
             component: Registration
         },
 
+        {
+            path: '/task',
+            name: 'task',
+            component: Task
+        }
     ]
 })
