@@ -199,7 +199,7 @@ export default {
                 description: this.taskDescription,
                 whatWatch: this.whatWatch,
                 time,
-                usedTags: this.usedTags,
+                tags: this.usedTags,
                 completed: false,
                 editing: false
             })
@@ -219,7 +219,9 @@ export default {
         addTagUsed (tag){
             tag.use = !tag.use
             if(tag.use){
-                this.usedTags.push(tag.title)
+                this.usedTags.push({
+                    title: tag.title
+                })
             } else {
                 this.usedTags.splice(this.usedTags.indexOf(tag.title), 1)
             }
