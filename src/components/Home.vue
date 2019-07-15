@@ -125,7 +125,6 @@ export default {
             filmMinutes: 0,
             taskTitle: '',
             taskDescription: '',
-            taskId: 3,
             whatWatch: 'Film',
             usedTags: [],
             tags: [
@@ -195,9 +194,7 @@ export default {
                 element.use = false
             });
 
-            // eslint-disable-next-line
             const task = ({
-                id: this.taskId++,
                 title: this.taskTitle,
                 description: this.taskDescription,
                 whatWatch: this.whatWatch,
@@ -206,6 +203,7 @@ export default {
                 completed: false,
                 editing: false
             })
+            this.$store.dispatch('newTask', task)
             this.taskTitle = ''
             this.taskDescription = ''
             this.usedTags = []

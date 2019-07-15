@@ -13,7 +13,7 @@
                             .task-item__info
                                 .task-item__main-info
                                     span.ui-label.ui-label--light {{task.whatWatch}}
-                                    span Total Time:
+                                    span Total Time: {{task.time}}
                                 span.button-close
                             .task-item__content
                                 .task-item__header
@@ -30,28 +30,11 @@
 
 <script>
 export default {
-    data() {
-        return {
-            tasks:[
-                {
-                    id: 1,
-                    title: 'Game of Thrones',
-                    description: 'winter is coming...',
-                    whatWatch: 'Serial',
-                    completed: true,
-                    editing: false
-                },
-                 {
-                    id: 2,
-                    title: 'Forrest Gump',
-                    description: 'Run, Forrest',
-                    whatWatch: 'Film',
-                    completed: false,
-                    editing: false
-                }
-            ] 
+    computed: {
+        tasks(){
+            return this.$store.getters.tasks
         }
-    },
+    }
 }
 </script>
 
