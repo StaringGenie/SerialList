@@ -68,6 +68,28 @@
                             v-model="serialSeriesMinutes"
                         )
                         p {{SerialTime}}
+
+                .tag-list.tag-list--add
+                    .ui-tag__wrapper(
+                        @click="tagMenuShow=!tagMenuShow"
+                    )
+                        .ui-tag
+                            span.tag-title Add New Tag
+                            span.button-close(
+                                :class="{active: !tagMenuShow}"
+                            ) 
+                .tag-list.tag-list--menu(
+                    v-if="tagMenuShow"
+                )  
+                    input.tag-add--input(
+                        type="text"
+                        placeholder="New Tag"
+                        v-model="tagTitle"
+                        @keyup.enter="newTag"
+                    )
+                    .button.button-default(
+                        @click="newTag"
+                    ) Send                 
                 .tag-list
                     .ui-tag__wrapper(
                         v-for="tag in tags"
@@ -75,11 +97,13 @@
                     )
                         .ui-tag(
                             @click="addTagUsed(tag)"
-                            :class="{active:tag.use}"
+                            :class="{used:tag.use}"
                         )
                             span.tag-title {{tag.title}}
                             span.button-close
-                p {{usedTags}}            
+                .button.button--round.button-primary(
+                    @click="newTask"
+                ) Send    
    
           
 
@@ -92,6 +116,8 @@
 export default {
     data() {
         return {
+            tagMenuShow: false,
+            tagTitle: '',
             serialSeason: 0,
             serialSeries: 0,
             serialSeriesMinutes:0,
@@ -141,6 +167,19 @@ export default {
     },
     
     methods:{
+        newTag(){
+            if(this.tagTitle === ''){
+                return
+            }
+            // eslint-disable-next-line
+           const tag =(   
+                {
+                    title: this.tagTitle,
+                    use: true
+                }
+            )
+            this.tagTitle = ''
+        },
         newTask(){
             if(this.taskTitle === ''){
                 return
@@ -151,17 +190,26 @@ export default {
             } else{
                 time = this.SerialTime
             }
-            this.tasks.push({
+
+            this.tags.forEach(element => {
+                element.use = false
+            });
+
+            // eslint-disable-next-line
+            const task = ({
                 id: this.taskId++,
                 title: this.taskTitle,
                 description: this.taskDescription,
                 whatWatch: this.whatWatch,
                 time,
+                usedTags: this.usedTags,
                 completed: false,
                 editing: false
             })
             this.taskTitle = ''
             this.taskDescription = ''
+            this.usedTags = []
+            
         },
 
         getHoursAndMinutes (minutes){
@@ -195,6 +243,35 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.tag-list
+    margin-bottom 20px
+.ui-tag__wrapper
+    margin-right 18px
+    margin-bottom 10px
+    &:last-child
+        margin-right 0  
+.ui-tag
+    cursor pointer
+    background-color #fff
+    color #000
+    .button-close
+        &.active
+            transform: rotate(45deg) 
+    &.used
+        background-color: #444ce0
+        color #fff 
+        .button-close
+            &:before,
+            &:after
+                background-color: #fff
+.tag-list--menu
+    display flex
+    justify-content space-between
+    align-items center
+.tag-add--input
+    margin-bottom 0
+    margin-right 10px
+    height 40px                                 
 .total-time
     margin-bottom 20px
 .time-title
