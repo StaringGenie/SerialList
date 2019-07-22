@@ -91,16 +91,20 @@
                         @click="newTag"
                     ) Send                 
                 .tag-list
-                    .ui-tag__wrapper(
-                        v-for="tag in tags"
-                        :key="tag.title"
+                    transition-group(
+                        enter-active-class="animated fadeInRight"
+                        leave-active-class="animated fadeInOut"
                     )
-                        .ui-tag(
-                            @click="addTagUsed(tag)"
-                            :class="{used:tag.use}"
+                        .ui-tag__wrapper(
+                            v-for="tag in tags"
+                            :key="tag.title"
                         )
-                            span.tag-title {{tag.title}}
-                            span.button-close
+                            .ui-tag(
+                                @click="addTagUsed(tag)"
+                                :class="{used:tag.use}"
+                            )
+                                span.tag-title {{tag.title}}
+                                span.button-close
                 .button.button--round.button-primary(
                     @click="newTask"
                 ) Send    
@@ -114,6 +118,7 @@
 
 <script>
 export default {
+    
     data() {
         return {
             tagMenuShow: false,
@@ -243,7 +248,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.tag-list
+.tag-list   
     margin-bottom 20px
 .ui-tag__wrapper
     margin-right 18px

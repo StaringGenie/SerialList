@@ -48,7 +48,7 @@ export default {
 
 
 <style lang="stylus">
-@import './assets/stylus/main.styl'
+// @import './assets/stylus/main.styl'
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 </style>
 
