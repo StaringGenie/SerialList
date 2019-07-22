@@ -130,44 +130,8 @@ export default {
             filmMinutes: 0,
             taskTitle: '',
             taskDescription: '',
-            taskId: 3,
             whatWatch: 'Film',
-            usedTags: [],
-            tags: [
-                {
-                    title: 'Comedy',
-                    use: false
-                },
-                {
-                    title: 'Adventure',
-                    use: false
-                },
-                {
-                    title: 'Detective',
-                    use: false
-                },
-                {
-                    title: 'Drama',
-                    use: false
-                },
-                {
-                    title: 'History',
-                    use: false
-                },
-                {
-                    title: 'Melodrama',
-                    use: false
-                },
-                {
-                    title: 'Tragedy',
-                    use: false
-                },
-                {
-                    title: 'Fantasy',
-                    use: false
-                },
-            ]
-           
+            usedTags: []
         }
     },
     
@@ -176,13 +140,12 @@ export default {
             if(this.tagTitle === ''){
                 return
             }
-            // eslint-disable-next-line
-           const tag =(   
+           const tag =   
                 {
                     title: this.tagTitle,
-                    use: true
+                    use: false
                 }
-            )
+            this.$store.dispatch('newTag', tag)
             this.tagTitle = ''
         },
         newTask(){
@@ -200,17 +163,16 @@ export default {
                 element.use = false
             });
 
-            // eslint-disable-next-line
             const task = ({
-                id: this.taskId++,
                 title: this.taskTitle,
                 description: this.taskDescription,
                 whatWatch: this.whatWatch,
                 time,
-                usedTags: this.usedTags,
+                tags: this.usedTags,
                 completed: false,
                 editing: false
             })
+            this.$store.dispatch('newTask', task)
             this.taskTitle = ''
             this.taskDescription = ''
             this.usedTags = []
@@ -226,7 +188,9 @@ export default {
         addTagUsed (tag){
             tag.use = !tag.use
             if(tag.use){
-                this.usedTags.push(tag.title)
+                this.usedTags.push({
+                    title: tag.title
+                })
             } else {
                 this.usedTags.splice(this.usedTags.indexOf(tag.title), 1)
             }
@@ -234,6 +198,9 @@ export default {
     },
 
     computed: {
+        tags(){
+          return this.$store.getters.tags
+        },
         filmTime (){
             let min = (this.filmHours * 60) + (this.filmMinutes * 1)
             return this.getHoursAndMinutes(min)
