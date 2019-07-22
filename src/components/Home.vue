@@ -126,42 +126,7 @@ export default {
             taskTitle: '',
             taskDescription: '',
             whatWatch: 'Film',
-            usedTags: [],
-            tags: [
-                {
-                    title: 'Comedy',
-                    use: false
-                },
-                {
-                    title: 'Adventure',
-                    use: false
-                },
-                {
-                    title: 'Detective',
-                    use: false
-                },
-                {
-                    title: 'Drama',
-                    use: false
-                },
-                {
-                    title: 'History',
-                    use: false
-                },
-                {
-                    title: 'Melodrama',
-                    use: false
-                },
-                {
-                    title: 'Tragedy',
-                    use: false
-                },
-                {
-                    title: 'Fantasy',
-                    use: false
-                },
-            ]
-           
+            usedTags: []
         }
     },
     
@@ -170,13 +135,12 @@ export default {
             if(this.tagTitle === ''){
                 return
             }
-            // eslint-disable-next-line
-           const tag =(   
+           const tag =   
                 {
                     title: this.tagTitle,
-                    use: true
+                    use: false
                 }
-            )
+            this.$store.dispatch('newTag', tag)
             this.tagTitle = ''
         },
         newTask(){
@@ -229,6 +193,9 @@ export default {
     },
 
     computed: {
+        tags(){
+          return this.$store.getters.tags
+        },
         filmTime (){
             let min = (this.filmHours * 60) + (this.filmMinutes * 1)
             return this.getHoursAndMinutes(min)
