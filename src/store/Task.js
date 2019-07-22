@@ -32,6 +32,16 @@
      getters: {
          tasks(state) {
              return state.tasks
+         },
+         taskCompleted(state) {
+             return state.tasks.filter(task => {
+                 return task.completed
+             })
+         },
+         taskNotCompleted(state) {
+             return state.tasks.filter(task => {
+                 return task.completed === false
+             })
          }
 
      }
