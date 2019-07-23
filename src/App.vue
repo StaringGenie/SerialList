@@ -50,6 +50,7 @@ export default {
 <style lang="stylus">
 
 @import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
+@import './assets/stylus/main.styl'
 body
     font-family 'Raleway', sans-serif;
 </style>

@@ -4,7 +4,9 @@
             .container
                 .auth
                     .auth__banner
-                     h1.ui-title-1 Banner
+                     h1.ui-title-1
+                        img(src='http://icons.iconarchive.com/icons/papirus-team/papirus-places/512/folder-blue-video-icon.png')
+
                     .auth__form 
                         span.ui-title-2 Registration
                         form(@submit.prevent="onSubmit")
@@ -109,6 +111,11 @@ export default {
 .auth__banner,
 .auth__form
     width 50%
+    @media screen and  (max-width:768px)
+        width 100%
+        margin-bottom 30px
+        &:last-child
+            margin-bottom 0
 .form-item
     .error
         display none
