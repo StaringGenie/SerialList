@@ -42,13 +42,15 @@
                                     .error(v-if="!$v.repeatPassword.sameAsPassword") Passwords must be identical.    
                                 .buttons-list
                                     button.button.button-primary(
-                                        :disabled="submitStatus === 'PENDING'"
                                         type="submit"
-                                    ) Registration
+                                    )
+                                        span(v-if="loading") Loading...
+                                        span(v-else) Registration
                                 .buttons-list.buttons-list--info    
                                     p.typo__p(v-if="submitStatus === 'OK'") Thanks for your submission!
                                     p.typo__p(v-if="submitStatus === 'ERROR'") Please fill the form correctly.
-                                    p.typo__p(v-if="submitStatus === 'PENDING'") Sending...
+                                    p.typo__p(v-else) {{submitStatus}}
+                                   
                                 .buttons-list.buttons-list--info  
                                     span Do you have account?
                                         router-link(to="/login")  Enter Here  
@@ -76,17 +78,26 @@ export default {
       if (this.$v.$invalid) {
         this.submitStatus = 'ERROR'
       } else {
-        // eslint-disable-next-line
+
         const user = {
             email: this.email,
             password: this.password
         }
-        this.submitStatus = 'PENDING'
-        setTimeout(() => {
-          this.submitStatus = 'OK'
-        }, 500)
+        this.$store.dispatch('registerUser', user)
+            .then(()=>{
+                this.submitStatus = 'OK'
+                this.$router.push('/')
+            })
+            .catch(err=>{
+                this.submitStatus = err.message
+            })
       }
     }
+  },
+  computed:{
+      loading(){
+          return this.$store.getters.loading
+      }
   },
     validations: {
     email: {

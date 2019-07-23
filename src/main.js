@@ -34,6 +34,12 @@ new Vue({
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                this.$store.dispatch('loggedUser', user)
+            }
+        })
     },
     render: h => h(App)
 }).$mount('#app')
