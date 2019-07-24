@@ -39,6 +39,7 @@ new Vue({
             if (user) {
                 this.$store.dispatch('loggedUser', user)
             }
+            this.$store.dispatch('loadTasks')
         })
     },
     render: h => h(App)
